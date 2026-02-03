@@ -1,11 +1,6 @@
 name: Build APK (assemble → sign → upload)
 
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - '.github/workflows/build.yml'
-      - 'app/**'
   workflow_dispatch:
 
 jobs:
