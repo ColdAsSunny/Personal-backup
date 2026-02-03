@@ -44,30 +44,6 @@ jobs:
           # 可在此加入 gradle.properties 调优（如内存、并行）
           ./gradlew clean assembleRelease assembleDebug --no-daemon
 
-      # 可选：签名（当且仅当你在仓库 Secrets 中提供 SIGNING_KEY）
-      - name: Sign Release APK
-        if: ${{ secrets.SIGNING_KEY != '' }}
-        uses: kevin-david/zipalign-sign-android-release@v2
-        id: sign_release
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-          zipAlign: true
-
-      - name: Sign Debug APK
-        if: ${{ secrets.SIGNING_KEY != '' }}
-        uses: kevin-david/zipalign-sign-android-release@v2
-        id: sign_debug
-        with:
-          releaseDirectory: app/build/outputs/apk/debug
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-          zipAlign: true
 
       # 上传未签名构建产物（始终上传，便于调试）
       - name: Upload unsigned APKs (build outputs)
@@ -77,13 +53,3 @@ jobs:
           path: |
             app/build/outputs/apk/release/*.apk
             app/build/outputs/apk/debug/*.apk
-
-      # 如果签名成功，额外上传签名过的 APK（签名步骤有运行且成功时生效）
-      - name: Upload signed APKs
-        if: ${{ secrets.SIGNING_KEY != '' }}
-        uses: actions/upload-artifact@v5
-        with:
-          name: signed-apks
-          path: |
-            ${{ steps.sign_release.outputs.signedReleaseFile }}
-            ${{ steps.sign_debug.outputs.signedReleaseFile }}
