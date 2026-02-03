@@ -28,11 +28,11 @@ jobs:
       - name: Setup Android SDK (platform + build-tools)
         uses: android-actions/setup-android@v3
         with:
-          # 已修改：使用更新的 platform / build-tools 版本（如需其他版本请替换）
+          # 已修改：使用可用的 platform / build-tools 版本（如需 API 34，请确认对应 build-tools 是否存在）
           packages: |
             platform-tools
-            platforms;android-34
-            build-tools;34.0.2
+            platforms;android-33
+            build-tools;33.0.2
 
       - name: Build APKs (Gradle)
         run: |
