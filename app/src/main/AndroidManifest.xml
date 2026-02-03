@@ -1,1 +1,21 @@
-123
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.system.notify">
+
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="33" />
+
+    <application
+        android:label="SystemNotify"
+        android:allowBackup="false"
+        android:exported="false">
+
+        <!-- BroadcastReceiver: 接收模块发来的广播并显示通知/吐司 -->
+        <receiver android:name=".NotifyReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.system.notify.SHOW_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>
